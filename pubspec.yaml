@@ -1,4 +1,4 @@
-name: flutter_maven_tracker
+name: MavenArtifactsTracker
 description: Simple Flutter app to track Maven dependencies
 
 version: 1.0.0+1
