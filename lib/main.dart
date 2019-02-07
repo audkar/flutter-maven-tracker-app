@@ -38,20 +38,28 @@ class _SearchArtifactPageState extends State<SearchArtifactPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            TextField(
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
               onChanged: (query) => _onQueryChanged(query),
               onSubmitted: (query) {
                 _onQueryChanged(query);
                 _refreshItems();
               },
             ),
-            buildList(response)
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: <Widget>[
+                Text('Items: ${response == null ? 0 : response.numFound}'),
+              ],
+            ),
+          ),
+          buildList(response)
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _refreshItems(),
@@ -68,11 +76,15 @@ class _SearchArtifactPageState extends State<SearchArtifactPage> {
       );
     } else {
       return Expanded(
-        child: ListView.builder(
+        child: ListView.separated(
           itemCount: response.artifacts.length,
           itemBuilder: (context, index) {
-            return ListTile(title: Text(response.artifacts[index].id));
+            return ListTile(
+              title: Text(response.artifacts[index].id),
+              subtitle: Text(response.artifacts[index].latestVersion),
+            );
           },
+          separatorBuilder: (context, index) => Divider(),
         ),
       );
     }
@@ -92,8 +104,8 @@ class _SearchArtifactPageState extends State<SearchArtifactPage> {
   }
 
   Future<ArtifactResponse> fetchArtifacts(String query) async {
-    final response =
-        await http.get("https://search.maven.org/solrsearch/select?q=$query");
+    final response = await http
+        .get("https://search.maven.org/solrsearch/select?q=$query&rows=20");
     if (response.statusCode == 200) {
       return ArtifactResponse.fromJson(
           json.jsonDecode(response.body)['response']);
