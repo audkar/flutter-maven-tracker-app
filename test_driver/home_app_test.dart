@@ -3,7 +3,7 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('artifacts list empty state', () {
+  group('home page', () {
     FlutterDriver driver;
 
     setUpAll(() async {
@@ -17,9 +17,31 @@ void main() {
     });
 
     test('visible', () async {
+      SerializableFinder searchButton = find.text('Search');
+      await driver.waitFor(searchButton);
+      await screenshot(driver, "home");
+    });
+  });
+
+  group('search artifacts page', () {
+    FlutterDriver driver;
+
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+      SerializableFinder searchButton = find.text('Search');
+      await driver.tap(searchButton);
+    });
+
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+
+    test('visible', () async {
       SerializableFinder noItemsText = find.text('No items');
       await driver.waitFor(noItemsText);
-      await screenshot(driver, "home");
+      await screenshot(driver, "search");
     });
   });
 }

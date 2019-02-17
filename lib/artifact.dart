@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 class Artifact {
   final String id;
   final String group;
@@ -6,11 +8,11 @@ class Artifact {
   final DateTime timestamp;
 
   Artifact({
-    this.id,
-    this.group,
-    this.artifactName,
-    this.latestVersion,
-    this.timestamp,
+    @required this.id,
+    @required this.group,
+    @required this.artifactName,
+    @required this.latestVersion,
+    @required this.timestamp,
   });
 
   factory Artifact.fromJson(Map<String, dynamic> json) {
@@ -35,7 +37,8 @@ class ArtifactResponse {
     return ArtifactResponse(
       numFound: json['numFound'],
       start: json['start'],
-      artifacts: (json['docs'] as List).map((i) => Artifact.fromJson(i)).toList(),
+      artifacts:
+          (json['docs'] as List).map((i) => Artifact.fromJson(i)).toList(),
     );
   }
 }

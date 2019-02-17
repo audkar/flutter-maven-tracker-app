@@ -1,4 +1,4 @@
-package app.nameplaceholder.mavenflutter.fluttermaventracker
+package app.nameplaceholder.mavenflutter
 
 import android.os.Bundle
 
