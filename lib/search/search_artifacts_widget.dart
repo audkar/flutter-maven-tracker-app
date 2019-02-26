@@ -1,4 +1,5 @@
 import 'package:MavenArtifactsTracker/artifacts_widget.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
 import 'package:MavenArtifactsTracker/search/search_artifacts_model.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -53,19 +54,31 @@ class SearchArtifactsWidget extends StatelessWidget {
     );
   }
 
-  ArtifactsWidget _buildArtifactsWidget(SearchArtifactsModel model) {
-    return ArtifactsWidget(
-      artifacts: model.artifacts,
-      refreshCallback: () {
-        model.refreshItems();
-        return Future<void>.value();
-      },
-      loadMoreCallback: () {
-        if (!model.inProgress && model.hasMoreItems) {
-          model.loadNextPage();
-        }
-      },
-      showLoadMoreProgress: model.hasMoreItems,
-    );
+  Widget _buildArtifactsWidget(SearchArtifactsModel model) {
+    return StreamBuilder<Iterable<Favorite>>(
+        initialData: [],
+        stream: model.favorites,
+        builder: (
+          BuildContext context,
+          AsyncSnapshot<Iterable<Favorite>> snapshot,
+        ) {
+          return ArtifactsWidget(
+            artifacts: model.artifacts,
+            favorites: snapshot.data ?? Iterable.empty(),
+            refreshCallback: () {
+              model.refreshItems();
+              return Future<void>.value();
+            },
+            loadMoreCallback: () {
+              if (!model.inProgress && model.hasMoreItems) {
+                model.loadNextPage();
+              }
+            },
+            showLoadMoreProgress: model.hasMoreItems,
+            onFavoriteToggle: (artifact, isFavorite) {
+              model.onFavoriteToggle(artifact, isFavorite);
+            },
+          );
+        });
   }
 }

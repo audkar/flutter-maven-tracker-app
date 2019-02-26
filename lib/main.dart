@@ -1,3 +1,4 @@
+import 'package:MavenArtifactsTracker/favorite/favorite_list_page.dart';
 import 'package:MavenArtifactsTracker/global_dependencies_model.dart';
 import 'package:MavenArtifactsTracker/home/home_page.dart';
 import 'package:MavenArtifactsTracker/search/search_artifacts_page.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => HomePage(),
-          '/search': (context) => SearchArtifactsPage()
+          '/search': (context) => SearchArtifactsPage(),
+          '/favorite_list': (context) => FavoriteListPage(),
         },
       ),
     );

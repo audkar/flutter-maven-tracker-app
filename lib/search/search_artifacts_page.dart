@@ -18,7 +18,10 @@ class _SearchArtifactsPageState extends State<SearchArtifactsPage> {
   void initState() {
     super.initState();
     final dependencies = ScopedModel.of<GlobalDependenciesModel>(context);
-    _model = SearchArtifactsModel(mavenApi: dependencies.mavenApi);
+    _model = SearchArtifactsModel(
+      mavenApi: dependencies.mavenApi,
+      favoriteRepository: dependencies.favoriteRepository,
+    );
   }
 
   @override
