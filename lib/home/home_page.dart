@@ -5,9 +5,19 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: RaisedButton(
-          child: Text('Search'),
-          onPressed: () => Navigator.of(context).pushNamed('/search'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+              child: Text('Search'),
+              onPressed: () => Navigator.of(context).pushNamed('/search'),
+            ),
+            RaisedButton(
+              child: Text('Favorite list'),
+              onPressed: () =>
+                  Navigator.of(context).pushNamed('/favorite_list'),
+            )
+          ],
         ),
       ),
     );

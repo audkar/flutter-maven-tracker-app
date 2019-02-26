@@ -1,4 +1,5 @@
 import 'package:MavenArtifactsTracker/artifact.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:intl/intl.dart';
@@ -8,14 +9,18 @@ class ArtifactsWidget extends StatelessWidget {
   const ArtifactsWidget({
     Key key,
     @required this.artifacts,
+    @required this.favorites,
     @required this.refreshCallback,
     this.loadMoreCallback,
-    this.showLoadMoreProgress,
+    this.showLoadMoreProgress = false,
+    this.onFavoriteToggle,
   }) : super(key: key);
 
   final List<Artifact> artifacts;
+  final Iterable<Favorite> favorites;
   final RefreshCallback refreshCallback;
   final LoadMoreCallback loadMoreCallback;
+  final OnFavoriteToggle onFavoriteToggle;
   final bool showLoadMoreProgress;
 
   @override
@@ -64,6 +69,8 @@ class ArtifactsWidget extends StatelessWidget {
 
   Widget _createArtifactItem(context, index) {
     final key = Key('searchItem$index');
+    final artifact = artifacts[index];
+    final isFavorite = favorites.any((asdf) => asdf.id == artifact.id);
     return ListTile(
       key: key,
       onTap: () {
@@ -77,10 +84,10 @@ class ArtifactsWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            artifacts[index].artifactName,
+            artifact.artifactName,
           ),
           Text(
-            artifacts[index].group,
+            artifact.group,
             style: Theme.of(context).textTheme.caption,
           ),
         ],
@@ -91,13 +98,13 @@ class ArtifactsWidget extends StatelessWidget {
           Row(
             children: <Widget>[
               Text('Latest version: '),
-              Text(artifacts[index].latestVersion),
+              Text(artifact.latestVersion),
             ],
           ),
           Row(
             children: <Widget>[
               Text('Last updated: '),
-              Text(dateFormat.format(artifacts[index].timestamp)),
+              Text(dateFormat.format(artifact.timestamp)),
             ],
           ),
         ],
@@ -113,6 +120,10 @@ class ArtifactsWidget extends StatelessWidget {
           height: 40,
           fit: BoxFit.scaleDown,
         ),
+      ),
+      trailing: IconButton(
+        icon: Icon(isFavorite ? Icons.star : Icons.star_border),
+        onPressed: () => onFavoriteToggle(artifacts[index], isFavorite),
       ),
     );
   }
@@ -130,5 +141,7 @@ class ArtifactsWidget extends StatelessWidget {
 }
 
 typedef LoadMoreCallback = Function();
+
+typedef OnFavoriteToggle = Function(Artifact artifact, bool isFavorite);
 
 final dateFormat = DateFormat.yMMMd();

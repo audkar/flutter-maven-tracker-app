@@ -3,19 +3,18 @@ import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
 void main() {
+  FlutterDriver driver;
+
+  setUpAll(() async {
+    driver = await FlutterDriver.connect();
+  });
+
+  tearDownAll(() async {
+    if (driver != null) {
+      driver.close();
+    }
+  });
   group('home page', () {
-    FlutterDriver driver;
-
-    setUpAll(() async {
-      driver = await FlutterDriver.connect();
-    });
-
-    tearDownAll(() async {
-      if (driver != null) {
-        driver.close();
-      }
-    });
-
     test('visible', () async {
       SerializableFinder searchButton = find.text('Search');
       await driver.waitFor(searchButton);
@@ -24,24 +23,38 @@ void main() {
   });
 
   group('search artifacts page', () {
-    FlutterDriver driver;
-
-    setUpAll(() async {
-      driver = await FlutterDriver.connect();
-      SerializableFinder searchButton = find.text('Search');
-      await driver.tap(searchButton);
+    setUp(() async {
+      await driver.tap(find.text('Search'));
     });
 
-    tearDownAll(() async {
-      if (driver != null) {
-        driver.close();
-      }
+    tearDown(() async {
+      await driver.tap(find.pageBack());
     });
 
     test('visible', () async {
+      SerializableFinder searchArtifactsTitle = find.text('Search artifacts');
+      await driver.waitFor(searchArtifactsTitle);
       SerializableFinder noItemsText = find.text('No items');
       await driver.waitFor(noItemsText);
       await screenshot(driver, "search");
+    });
+  });
+
+  group('favorites page', () {
+    setUp(() async {
+      await driver.tap(find.text('Favorite list'));
+    });
+
+    tearDown(() async {
+      await driver.tap(find.pageBack());
+    });
+
+    test('visible', () async {
+      SerializableFinder favoritesTitle = find.text('Favorites');
+      await driver.waitFor(favoritesTitle);
+      SerializableFinder noItemsText = find.text('No items');
+      await driver.waitFor(noItemsText);
+      await screenshot(driver, "favorites");
     });
   });
 }

@@ -1,10 +1,12 @@
 import 'package:MavenArtifactsTracker/api/maven_api.dart';
 import 'package:MavenArtifactsTracker/artifact.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class SearchArtifactsModel extends Model {
   final MavenApi mavenApi;
+  final FavoriteRepository favoriteRepository;
   String _searchQuery = '';
   ArtifactsPage _artifacts = ArtifactsPage();
   bool _inProgress = false;
@@ -17,7 +19,12 @@ class SearchArtifactsModel extends Model {
 
   bool get hasMoreItems => _artifacts.itemCount > _artifacts.items.length;
 
-  SearchArtifactsModel({@required this.mavenApi});
+  Stream<Iterable<Favorite>> get favorites => favoriteRepository.favorites;
+
+  SearchArtifactsModel({
+    @required this.mavenApi,
+    @required this.favoriteRepository,
+  });
 
   void changeQuery(String query) {
     _searchQuery = query;
@@ -46,6 +53,17 @@ class SearchArtifactsModel extends Model {
 
     _inProgress = false;
     notifyListeners();
+  }
+
+  void onFavoriteToggle(Artifact artifact, bool isFavorite) {
+    final favorite = Favorite(
+      id: artifact.id,
+    );
+    if (isFavorite) {
+      favoriteRepository.removeFavorite(favorite);
+    } else {
+      favoriteRepository.addFavorite(favorite);
+    }
   }
 }
 
