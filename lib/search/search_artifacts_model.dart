@@ -1,6 +1,8 @@
+import 'package:MavenArtifactsTracker/api/artifact_response.dart';
 import 'package:MavenArtifactsTracker/api/maven_api.dart';
 import 'package:MavenArtifactsTracker/artifact.dart';
 import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -11,7 +13,7 @@ class SearchArtifactsModel extends Model {
   ArtifactsPage _artifacts = ArtifactsPage();
   bool _inProgress = false;
 
-  List<Artifact> get artifacts => _artifacts.items;
+  BuiltList<Artifact> get artifacts => _artifacts.items;
 
   int get itemCount => _artifacts.itemCount;
 
@@ -72,21 +74,21 @@ const int _ROWS_PER_PAGE = 20;
 @immutable
 class ArtifactsPage {
   final int itemCount;
-  final List<Artifact> items;
+  final BuiltList<Artifact> items;
   final int currentPage;
 
   ArtifactsPage({
     this.itemCount = 0,
-    this.items = const [],
+    BuiltList<Artifact> items,
     this.currentPage = -1,
-  });
+  }) : this.items = items ?? BuiltList();
 
   int get nextPageIndex => currentPage + 1;
 
   ArtifactsPage nextPageFrom(ArtifactResponse response) {
     return ArtifactsPage(
-      itemCount: response.numFound,
-      items: items + response.artifacts,
+      itemCount: response.response.numFound,
+      items: items + response.response.artifacts,
       currentPage: nextPageIndex,
     );
   }

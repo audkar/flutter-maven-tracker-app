@@ -1,5 +1,6 @@
 import 'package:MavenArtifactsTracker/artifact.dart';
 import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +17,7 @@ class ArtifactsWidget extends StatelessWidget {
     this.onFavoriteToggle,
   }) : super(key: key);
 
-  final List<Artifact> artifacts;
+  final BuiltList<Artifact> artifacts;
   final Iterable<Favorite> favorites;
   final RefreshCallback refreshCallback;
   final LoadMoreCallback loadMoreCallback;

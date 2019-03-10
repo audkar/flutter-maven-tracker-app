@@ -1,3 +1,4 @@
+import 'package:MavenArtifactsTracker/api/artifact_response.dart';
 import 'package:MavenArtifactsTracker/api/maven_api.dart';
 import 'package:MavenArtifactsTracker/artifact.dart';
 import 'package:MavenArtifactsTracker/global_dependencies_model.dart';
@@ -21,25 +22,23 @@ class MockMavenApi extends MavenApi {
     int start,
     int rows,
   ) {
-    return Future.value(ArtifactResponse(
-      numFound: 2,
-      artifacts: [
-        Artifact(
-          artifactName: 'artifactname0',
-          id: 'artifactgroup0.artifactname0',
-          group: 'artifactgroup0',
-          latestVersion: '1.0',
-          timestamp: DateTime.fromMillisecondsSinceEpoch(100),
-        ),
-        Artifact(
-          artifactName: 'artifactname1',
-          id: 'artifactgroup1.artifactname1',
-          group: 'artifactgroup1',
-          latestVersion: '1.1',
-          timestamp: DateTime.fromMillisecondsSinceEpoch(100),
-        ),
-      ],
-      start: 0,
-    ));
+    return Future.value(ArtifactResponse((b) => b
+      ..responseHeader.status = 0
+      ..response.start = 0
+      ..response.numFound = 2
+      ..response.artifacts.addAll([
+        Artifact((b) => b
+          ..artifactName = 'artifactname0'
+          ..id = 'artifactgroup0.artifactname0'
+          ..group = 'artifactgroup0'
+          ..latestVersion = '1.0'
+          ..timestamp = DateTime.fromMillisecondsSinceEpoch(100)),
+        Artifact((b) => b
+          ..artifactName = 'artifactname1'
+          ..id = 'artifactgroup1.artifactname1'
+          ..group = 'artifactgroup1'
+          ..latestVersion = '1.1'
+          ..timestamp = DateTime.fromMillisecondsSinceEpoch(100)),
+      ])));
   }
 }

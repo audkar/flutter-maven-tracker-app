@@ -1,44 +1,36 @@
-import 'package:meta/meta.dart';
+library artifact;
 
-class Artifact {
-  final String id;
-  final String group;
-  final String artifactName;
-  final String latestVersion;
-  final DateTime timestamp;
+import 'dart:convert';
+import 'package:MavenArtifactsTracker/utils/serialization/serializers.dart';
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
 
-  Artifact({
-    @required this.id,
-    @required this.group,
-    @required this.artifactName,
-    @required this.latestVersion,
-    @required this.timestamp,
-  });
+part 'artifact.g.dart';
 
-  factory Artifact.fromJson(Map<String, dynamic> json) {
-    return Artifact(
-      id: json['id'],
-      group: json['g'],
-      artifactName: json['a'],
-      latestVersion: json['latestVersion'],
-      timestamp: DateTime.fromMillisecondsSinceEpoch(json['timestamp']),
-    );
+abstract class Artifact implements Built<Artifact, ArtifactBuilder> {
+  Artifact._();
+
+  factory Artifact([updates(ArtifactBuilder b)]) = _$Artifact;
+
+  @BuiltValueField(wireName: 'id')
+  String get id;
+  @BuiltValueField(wireName: 'g')
+  String get group;
+  @BuiltValueField(wireName: 'a')
+  String get artifactName;
+  @BuiltValueField(wireName: 'latestVersion')
+  String get latestVersion;
+  @BuiltValueField(wireName: 'timestamp')
+  DateTime get timestamp;
+  @BuiltValueField(wireName: 'id')
+  String toJson() {
+    return json.encode(serializers.serializeWith(Artifact.serializer, this));
   }
-}
 
-class ArtifactResponse {
-  final int numFound;
-  final int start;
-  final List<Artifact> artifacts;
-
-  ArtifactResponse({this.numFound, this.start, this.artifacts});
-
-  factory ArtifactResponse.fromJson(Map<String, dynamic> json) {
-    return ArtifactResponse(
-      numFound: json['numFound'],
-      start: json['start'],
-      artifacts:
-          (json['docs'] as List).map((i) => Artifact.fromJson(i)).toList(),
-    );
+  static Artifact fromJson(String jsonString) {
+    return serializers.deserializeWith(
+        Artifact.serializer, json.decode(jsonString));
   }
+
+  static Serializer<Artifact> get serializer => _$artifactSerializer;
 }

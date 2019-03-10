@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:built_collection/built_collection.dart';
 
 abstract class FavoriteRepository {
-  Stream<Iterable<Favorite>> get favorites;
+  Stream<BuiltSet<Favorite>> get favorites;
   addFavorite(Favorite favorite);
   removeFavorite(Favorite favorite);
 }
@@ -18,7 +18,7 @@ class InMemoryFavoriteRepository extends FavoriteRepository {
   }
 
   @override
-  Stream<Iterable<Favorite>> get favorites => _subject.stream;
+  Stream<BuiltSet<Favorite>> get favorites => _subject.stream;
 
   @override
   addFavorite(Favorite favorite) =>

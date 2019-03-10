@@ -1,3 +1,4 @@
+import 'package:MavenArtifactsTracker/api/artifact_response.dart';
 import 'package:MavenArtifactsTracker/artifact.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as json;
@@ -24,8 +25,7 @@ class _CentralMavenApi implements MavenApi {
         "https://search.maven.org/solrsearch/select?q=$query&rows=$rows&start=$start";
     final response = await http.get(url);
     if (response.statusCode == 200) {
-      return ArtifactResponse.fromJson(
-          json.jsonDecode(response.body)['response']);
+      return ArtifactResponse.fromJson(response.body);
     } else {
       throw Exception('Failed http artifact request: ${response.body}');
     }

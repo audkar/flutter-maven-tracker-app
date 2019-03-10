@@ -1,0 +1,25 @@
+{
+  "responseHeader": {
+    "status": 0
+  },
+  "response": {
+    "numFound": 2,
+    "start": 0,
+    "docs": [
+      {
+        "id": "artifact.group:aartifact",
+        "g": "artifact.group",
+        "a": "aartifact",
+        "latestVersion": "1.23",
+        "timestamp": 1547662493000
+      },
+      {
+        "id": "artifact.group:bartifact",
+        "g": "artifact.group",
+        "a": "bartifact",
+        "latestVersion": "2.23",
+        "timestamp": 1547662493000
+      }
+    ]
+  }
+}
