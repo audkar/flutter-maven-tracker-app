@@ -1,7 +1,5 @@
 import 'package:MavenArtifactsTracker/api/artifact_response.dart';
-import 'package:MavenArtifactsTracker/artifact.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as json;
 
 abstract class MavenApi {
   Future<ArtifactResponse> fetchArtifacts(

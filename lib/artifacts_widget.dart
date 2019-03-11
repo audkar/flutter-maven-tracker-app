@@ -1,5 +1,5 @@
 import 'package:MavenArtifactsTracker/artifact.dart';
-import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -141,8 +141,8 @@ class ArtifactsWidget extends StatelessWidget {
       MediaQuery.of(context).size.height / 2;
 }
 
-typedef LoadMoreCallback = Function();
+typedef LoadMoreCallback = void Function();
 
-typedef OnFavoriteToggle = Function(Artifact artifact, bool isFavorite);
+typedef OnFavoriteToggle = void Function(Artifact artifact, bool isFavorite);
 
 final dateFormat = DateFormat.yMMMd();

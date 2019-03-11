@@ -16,6 +16,7 @@ dependencies:
   built_value: ^6.3.2
   built_collection: ^4.1.0
   intl: ^0.15.7
+  shared_preferences: ^0.5.1+1
 
 dev_dependencies:
   flutter_test:

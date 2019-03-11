@@ -1,6 +1,7 @@
 import 'package:MavenArtifactsTracker/api/artifact_response.dart';
 import 'package:MavenArtifactsTracker/api/maven_api.dart';
 import 'package:MavenArtifactsTracker/artifact.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite.dart';
 import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
@@ -59,7 +60,7 @@ class SearchArtifactsModel extends Model {
 
   void onFavoriteToggle(Artifact artifact, bool isFavorite) {
     final favorite = Favorite(
-      id: artifact.id,
+      (b) => b..id = artifact.id,
     );
     if (isFavorite) {
       favoriteRepository.removeFavorite(favorite);
