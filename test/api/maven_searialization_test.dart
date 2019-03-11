@@ -7,6 +7,11 @@ import 'package:test/test.dart';
 main() {
   test('Response deserialized', () {
     File file = File('test_resources/api/maven_search_artifact.json');
+    if (!file.existsSync()) {
+      //IDE and CLI test are executed from diff dirs
+      file = File('../test_resources/api/maven_search_artifact.json');
+    }
+
     String input = file.readAsStringSync();
     var expected = ArtifactResponse((b) => b
       ..responseHeader.status = 0

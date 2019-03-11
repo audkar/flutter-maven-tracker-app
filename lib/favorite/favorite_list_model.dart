@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:MavenArtifactsTracker/api/maven_api.dart';
 import 'package:MavenArtifactsTracker/artifact.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite.dart';
 import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:meta/meta.dart';
@@ -12,7 +13,7 @@ class FavoriteListModel extends Model {
   final FavoriteRepository repository;
   BuiltList<Artifact> _artifacts = BuiltList();
   BuiltList<Favorite> _favorites = BuiltList();
-  StreamSubscription<Iterable<Favorite>> _subscription;
+  StreamSubscription<BuiltSet<Favorite>> _subscription;
   bool isLoading = false;
 
   FavoriteListModel({
@@ -23,18 +24,29 @@ class FavoriteListModel extends Model {
       if (onData.length == 0) {
         _artifacts = BuiltList();
         _favorites = BuiltList();
-      } else {
-        isLoading = true;
         notifyListeners();
-        final q = onData.map((item) => "id:\"${item.id}\"").join("+OR+");
-        final resp = await mavenApi.fetchArtifacts(q, 0, 100);
-        print('Favorites fetched new data');
-        isLoading = false;
-        _artifacts = resp.response.artifacts;
-        _favorites = onData.toBuiltList();
+      } else {
+        await _refresh(onData);
       }
-      notifyListeners();
     });
+  }
+
+  Future<void> refresh() async => _refresh(_favorites.toBuiltSet());
+
+  Future _refresh(BuiltSet<Favorite> onData) async {
+    isLoading = true;
+    notifyListeners();
+    final q = onData.map((item) => "id:\"${item.id}\"").join("+OR+");
+    final resp = await mavenApi.fetchArtifacts(q, 0, 100);
+    print('Favorites fetched new data');
+    isLoading = false;
+    _artifacts = resp.response.artifacts;
+    _favorites = onData.toBuiltList();
+    notifyListeners();
+  }
+
+  void removeFavorite(Artifact artifact) {
+    repository.removeFavorite(Favorite((b) => b..id = artifact.id));
   }
 
   BuiltList<Artifact> get artifacts => _artifacts;

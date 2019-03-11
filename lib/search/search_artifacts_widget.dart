@@ -1,5 +1,5 @@
 import 'package:MavenArtifactsTracker/artifacts_widget.dart';
-import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite.dart';
 import 'package:MavenArtifactsTracker/search/search_artifacts_model.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';

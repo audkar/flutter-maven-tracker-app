@@ -2,7 +2,7 @@ import 'package:MavenArtifactsTracker/favorite/favorite_list_page.dart';
 import 'package:MavenArtifactsTracker/global_dependencies_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'utils/mocks.dart';
+import '../utils/mocks.dart';
 
 main() {
   FavoriteListPage page;
@@ -10,7 +10,7 @@ main() {
 
   setUp(() async {
     page = FavoriteListPage();
-    dependenciesModel = GlobalDependenciesModel(mavenApi: MockMavenApi());
+    dependenciesModel = createTestDependenciesModel();
   });
 
   group('Initial page open without items', () {

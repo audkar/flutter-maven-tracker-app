@@ -1,9 +1,21 @@
 import 'package:MavenArtifactsTracker/api/artifact_response.dart';
 import 'package:MavenArtifactsTracker/api/maven_api.dart';
 import 'package:MavenArtifactsTracker/artifact.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite_persistor.dart';
+import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
 import 'package:MavenArtifactsTracker/global_dependencies_model.dart';
+import 'package:built_collection/src/set.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+GlobalDependenciesModel createTestDependenciesModel() {
+  return GlobalDependenciesModel(
+      mavenApi: MockMavenApi(),
+      favoriteRepository: InMemoryFavoriteRepository(
+        favoritesPersistor: MockFavoritesPersistor(),
+      ));
+}
 
 ScopedModel<GlobalDependenciesModel> createTestApp(
   GlobalDependenciesModel dependenciesModel,
@@ -40,5 +52,20 @@ class MockMavenApi extends MavenApi {
           ..latestVersion = '1.1'
           ..timestamp = DateTime.fromMillisecondsSinceEpoch(100)),
       ])));
+  }
+}
+
+class MockFavoritesPersistor implements FavoritesPersistor {
+  BuiltSet<Favorite> favorites = BuiltSet.of([]);
+  Stream<BuiltSet<Favorite>> persistedItems;
+
+  @override
+  void persist(Stream<BuiltSet<Favorite>> items) {
+    persistedItems = items;
+  }
+
+  @override
+  Future<BuiltSet<Favorite>> retrieve() {
+    return Future.value(favorites);
   }
 }

@@ -31,7 +31,10 @@ class FavoriteListWidget extends StatelessWidget {
         ArtifactsWidget(
           artifacts: model.artifacts,
           favorites: model.favorites,
-          refreshCallback: () => Future.value(),
+          refreshCallback: () => model.refresh(),
+          onFavoriteToggle: (artifact, _) {
+            model.removeFavorite(artifact);
+          },
         ),
       ],
     );

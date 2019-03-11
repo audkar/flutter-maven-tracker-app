@@ -11,7 +11,7 @@ void main() {
 
   setUp(() async {
     page = SearchArtifactsPage();
-    dependenciesModel = GlobalDependenciesModel(mavenApi: MockMavenApi());
+    dependenciesModel = createTestDependenciesModel();
   });
 
   group('Initial widget open', () {
