@@ -87,7 +87,7 @@ class _$Artifact extends Artifact {
   @override
   final DateTime timestamp;
 
-  factory _$Artifact([void updates(ArtifactBuilder b)]) =>
+  factory _$Artifact([void Function(ArtifactBuilder) updates]) =>
       (new ArtifactBuilder()..update(updates)).build();
 
   _$Artifact._(
@@ -115,7 +115,7 @@ class _$Artifact extends Artifact {
   }
 
   @override
-  Artifact rebuild(void updates(ArtifactBuilder b)) =>
+  Artifact rebuild(void Function(ArtifactBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -201,7 +201,7 @@ class ArtifactBuilder implements Builder<Artifact, ArtifactBuilder> {
   }
 
   @override
-  void update(void updates(ArtifactBuilder b)) {
+  void update(void Function(ArtifactBuilder) updates) {
     if (updates != null) updates(this);
   }
 

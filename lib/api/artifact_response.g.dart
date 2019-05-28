@@ -161,7 +161,8 @@ class _$ArtifactResponse extends ArtifactResponse {
   @override
   final Response response;
 
-  factory _$ArtifactResponse([void updates(ArtifactResponseBuilder b)]) =>
+  factory _$ArtifactResponse(
+          [void Function(ArtifactResponseBuilder) updates]) =>
       (new ArtifactResponseBuilder()..update(updates)).build();
 
   _$ArtifactResponse._({this.responseHeader, this.response}) : super._() {
@@ -174,7 +175,7 @@ class _$ArtifactResponse extends ArtifactResponse {
   }
 
   @override
-  ArtifactResponse rebuild(void updates(ArtifactResponseBuilder b)) =>
+  ArtifactResponse rebuild(void Function(ArtifactResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -237,7 +238,7 @@ class ArtifactResponseBuilder
   }
 
   @override
-  void update(void updates(ArtifactResponseBuilder b)) {
+  void update(void Function(ArtifactResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -271,7 +272,7 @@ class _$ResponseHeader extends ResponseHeader {
   @override
   final int status;
 
-  factory _$ResponseHeader([void updates(ResponseHeaderBuilder b)]) =>
+  factory _$ResponseHeader([void Function(ResponseHeaderBuilder) updates]) =>
       (new ResponseHeaderBuilder()..update(updates)).build();
 
   _$ResponseHeader._({this.status}) : super._() {
@@ -281,7 +282,7 @@ class _$ResponseHeader extends ResponseHeader {
   }
 
   @override
-  ResponseHeader rebuild(void updates(ResponseHeaderBuilder b)) =>
+  ResponseHeader rebuild(void Function(ResponseHeaderBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -334,7 +335,7 @@ class ResponseHeaderBuilder
   }
 
   @override
-  void update(void updates(ResponseHeaderBuilder b)) {
+  void update(void Function(ResponseHeaderBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -354,7 +355,7 @@ class _$Response extends Response {
   @override
   final BuiltList<Artifact> artifacts;
 
-  factory _$Response([void updates(ResponseBuilder b)]) =>
+  factory _$Response([void Function(ResponseBuilder) updates]) =>
       (new ResponseBuilder()..update(updates)).build();
 
   _$Response._({this.numFound, this.start, this.artifacts}) : super._() {
@@ -370,7 +371,7 @@ class _$Response extends Response {
   }
 
   @override
-  Response rebuild(void updates(ResponseBuilder b)) =>
+  Response rebuild(void Function(ResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -439,7 +440,7 @@ class ResponseBuilder implements Builder<Response, ResponseBuilder> {
   }
 
   @override
-  void update(void updates(ResponseBuilder b)) {
+  void update(void Function(ResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 

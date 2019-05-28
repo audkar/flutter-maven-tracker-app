@@ -51,7 +51,7 @@ class _$Favorite extends Favorite {
   @override
   final String id;
 
-  factory _$Favorite([void updates(FavoriteBuilder b)]) =>
+  factory _$Favorite([void Function(FavoriteBuilder) updates]) =>
       (new FavoriteBuilder()..update(updates)).build();
 
   _$Favorite._({this.id}) : super._() {
@@ -61,7 +61,7 @@ class _$Favorite extends Favorite {
   }
 
   @override
-  Favorite rebuild(void updates(FavoriteBuilder b)) =>
+  Favorite rebuild(void Function(FavoriteBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -110,7 +110,7 @@ class FavoriteBuilder implements Builder<Favorite, FavoriteBuilder> {
   }
 
   @override
-  void update(void updates(FavoriteBuilder b)) {
+  void update(void Function(FavoriteBuilder) updates) {
     if (updates != null) updates(this);
   }
 

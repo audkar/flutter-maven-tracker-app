@@ -39,7 +39,7 @@ android {
     defaultConfig {
         applicationId "app.nameplaceholder.mavenflutter"
         minSdkVersion 21
-        targetSdkVersion 27 //bug in Flutter. >1.0.0 versions should have fix
+        targetSdkVersion 28 
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
