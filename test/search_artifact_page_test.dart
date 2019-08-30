@@ -1,42 +1,40 @@
-import 'package:MavenArtifactsTracker/global_dependencies_model.dart';
+import 'package:MavenArtifactsTracker/artifact/search/bloc/bloc.dart';
+import 'package:MavenArtifactsTracker/artifact/search/search_artifacts_page.dart';
+import 'package:MavenArtifactsTracker/data/favorite/repository.dart';
+import 'package:MavenArtifactsTracker/data/searchartifact/repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:MavenArtifactsTracker/search/search_artifacts_page.dart';
 import 'package:flutter/material.dart';
 
 import 'utils/mocks.dart';
 
 void main() {
-  SearchArtifactsPage page;
-  GlobalDependenciesModel dependenciesModel;
+  Widget page;
 
   setUp(() async {
-    page = SearchArtifactsPage();
-    dependenciesModel = createTestDependenciesModel();
+    page = BlocProvider(
+      builder: (BuildContext context) => SearchArtifactsBloc(
+        SearchArtifactRepository(MockMavenApi()),
+        InMemoryFavoriteRepository(
+            favoritesPersistor: MockFavoritesPersistor()),
+      ),
+      child: SearchArtifactsPage(),
+    );
   });
 
   group('Initial widget open', () {
     testWidgets('No items text is shown', (WidgetTester tester) async {
       await tester.pumpWidget(createTestApp(
-        dependenciesModel,
         page,
       ));
 
-      expect(find.text('No items'), findsOneWidget);
-    });
-    testWidgets('Item count is zero', (WidgetTester tester) async {
-      await tester.pumpWidget(createTestApp(
-        dependenciesModel,
-        page,
-      ));
-
-      expect(find.text('Items: 0'), findsOneWidget);
+      expect(find.text('Enter new query'), findsOneWidget);
     });
   });
 
   group('Press search with empty query', () {
     testWidgets('No items text is shown', (WidgetTester tester) async {
       await tester.pumpWidget(createTestApp(
-        dependenciesModel,
         page,
       ));
 
@@ -45,14 +43,13 @@ void main() {
       await tester.testTextInput.receiveAction(TextInputAction.done);
       await tester.pump();
 
-      expect(find.text('No items'), findsOneWidget);
+      expect(find.text('Enter new query'), findsOneWidget);
     });
   });
 
   group('Press search with valid query', () {
     testWidgets('Loaded items are shown', (WidgetTester tester) async {
       await tester.pumpWidget(createTestApp(
-        dependenciesModel,
         page,
       ));
 
@@ -67,7 +64,6 @@ void main() {
 
     testWidgets('Item count updated', (WidgetTester tester) async {
       await tester.pumpWidget(createTestApp(
-        dependenciesModel,
         page,
       ));
 
@@ -81,7 +77,7 @@ void main() {
 
     testWidgets('all items are shown', (WidgetTester tester) async {
       final SemanticsHandle handle = tester.ensureSemantics();
-      await tester.pumpWidget(createTestApp(dependenciesModel, page));
+      await tester.pumpWidget(createTestApp(page));
       await tester.enterText(
           find.widgetWithText(TextField, 'Artifact name'), 'dagger');
       await tester.testTextInput.receiveAction(TextInputAction.search);

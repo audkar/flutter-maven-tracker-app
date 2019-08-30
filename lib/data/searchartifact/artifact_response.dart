@@ -2,7 +2,6 @@ library artifact_response;
 
 import 'dart:convert';
 
-import 'package:MavenArtifactsTracker/artifact.dart';
 import 'package:MavenArtifactsTracker/utils/serialization/serializers.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -22,15 +21,11 @@ abstract class ArtifactResponse
   @BuiltValueField(wireName: 'response')
   Response get response;
 
-  String toJson() {
-    return json
-        .encode(serializers.serializeWith(ArtifactResponse.serializer, this));
-  }
+  String toJson() =>
+      json.encode(serializers.serializeWith(ArtifactResponse.serializer, this));
 
-  static ArtifactResponse fromJson(String jsonString) {
-    return serializers.deserializeWith(
-        ArtifactResponse.serializer, json.decode(jsonString));
-  }
+  static ArtifactResponse fromJson(String jsonString) => serializers
+      .deserializeWith(ArtifactResponse.serializer, json.decode(jsonString));
 
   static Serializer<ArtifactResponse> get serializer =>
       _$artifactResponseSerializer;
@@ -62,4 +57,32 @@ abstract class Response implements Built<Response, ResponseBuilder> {
   BuiltList<Artifact> get artifacts;
 
   static Serializer<Response> get serializer => _$responseSerializer;
+}
+
+abstract class Artifact implements Built<Artifact, ArtifactBuilder> {
+  Artifact._();
+
+  factory Artifact([updates(ArtifactBuilder b)]) = _$Artifact;
+
+  @BuiltValueField(wireName: 'id')
+  String get id;
+  @BuiltValueField(wireName: 'g')
+  String get group;
+  @BuiltValueField(wireName: 'a')
+  String get artifactName;
+  @BuiltValueField(wireName: 'latestVersion')
+  String get latestVersion;
+  @BuiltValueField(wireName: 'timestamp')
+  DateTime get timestamp;
+  @BuiltValueField(wireName: 'id')
+  String toJson() {
+    return json.encode(serializers.serializeWith(Artifact.serializer, this));
+  }
+
+  static Artifact fromJson(String jsonString) {
+    return serializers.deserializeWith(
+        Artifact.serializer, json.decode(jsonString));
+  }
+
+  static Serializer<Artifact> get serializer => _$artifactSerializer;
 }

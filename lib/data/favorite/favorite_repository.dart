@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:MavenArtifactsTracker/favorite/favorite.dart';
-import 'package:MavenArtifactsTracker/favorite/favorite_persistor.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:built_collection/built_collection.dart';
+
+import 'favorite.dart';
+import 'favorite_persistor.dart';
 
 abstract class FavoriteRepository {
   Stream<BuiltSet<Favorite>> get favorites;

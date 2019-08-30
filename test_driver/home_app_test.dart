@@ -34,8 +34,8 @@ void main() {
     test('visible', () async {
       SerializableFinder searchArtifactsTitle = find.text('Search artifacts');
       await driver.waitFor(searchArtifactsTitle);
-      SerializableFinder noItemsText = find.text('No items');
-      await driver.waitFor(noItemsText);
+      SerializableFinder enterQueryText = find.text('Enter new query');
+      await driver.waitFor(enterQueryText);
       await screenshot(driver, "search");
     });
   });

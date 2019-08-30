@@ -1,30 +1,26 @@
-import 'package:MavenArtifactsTracker/api/artifact_response.dart';
-import 'package:MavenArtifactsTracker/api/maven_api.dart';
-import 'package:MavenArtifactsTracker/artifact.dart';
-import 'package:MavenArtifactsTracker/favorite/favorite.dart';
-import 'package:MavenArtifactsTracker/favorite/favorite_persistor.dart';
-import 'package:MavenArtifactsTracker/favorite/favorite_repository.dart';
-import 'package:MavenArtifactsTracker/global_dependencies_model.dart';
+import 'package:MavenArtifactsTracker/data/favorite/favorite_persistor.dart';
+import 'package:MavenArtifactsTracker/data/favorite/repository.dart';
+import 'package:MavenArtifactsTracker/data/searchartifact/artifact_response.dart';
+import 'package:MavenArtifactsTracker/data/searchartifact/maven_api.dart';
+import 'package:MavenArtifactsTracker/data/searchartifact/repository.dart';
 import 'package:built_collection/src/set.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-GlobalDependenciesModel createTestDependenciesModel() {
-  return GlobalDependenciesModel(
-      mavenApi: MockMavenApi(),
-      favoriteRepository: InMemoryFavoriteRepository(
-        favoritesPersistor: MockFavoritesPersistor(),
-      ));
-}
+List<RepositoryProvider<dynamic>> createTestRepositoryProviders() => [
+      RepositoryProvider<FavoriteRepository>(
+        builder: (BuildContext context) => InMemoryFavoriteRepository(
+            favoritesPersistor: MockFavoritesPersistor()),
+      ),
+      RepositoryProvider<SearchArtifactRepository>(
+          builder: (BuildContext context) =>
+              SearchArtifactRepository(MockMavenApi())),
+    ];
 
-ScopedModel<GlobalDependenciesModel> createTestApp(
-  GlobalDependenciesModel dependenciesModel,
+Widget createTestApp(
   Widget widget,
 ) {
-  return ScopedModel(
-    model: dependenciesModel,
-    child: MaterialApp(home: widget),
-  );
+  return MaterialApp(home: widget);
 }
 
 class MockMavenApi extends MavenApi {

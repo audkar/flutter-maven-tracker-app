@@ -15,7 +15,7 @@ class _$FavoriteSerializer implements StructuredSerializer<Favorite> {
   final String wireName = 'Favorite';
 
   @override
-  Iterable serialize(Serializers serializers, Favorite object,
+  Iterable<Object> serialize(Serializers serializers, Favorite object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'id',
@@ -26,7 +26,7 @@ class _$FavoriteSerializer implements StructuredSerializer<Favorite> {
   }
 
   @override
-  Favorite deserialize(Serializers serializers, Iterable serialized,
+  Favorite deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new FavoriteBuilder();
 

@@ -1,5 +1,5 @@
-import 'package:MavenArtifactsTracker/favorite/favorite.dart';
-import 'package:MavenArtifactsTracker/favorite/favorite_persistor.dart';
+import 'package:MavenArtifactsTracker/data/favorite/favorite_persistor.dart';
+import 'package:MavenArtifactsTracker/data/favorite/repository.dart';
 import 'package:built_collection/src/set.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test/test.dart';

@@ -1,6 +1,7 @@
-import 'package:MavenArtifactsTracker/favorite/favorite.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'favorite.dart';
 
 abstract class FavoritesPersistor {
   void persist(Stream<BuiltSet<Favorite>> items);

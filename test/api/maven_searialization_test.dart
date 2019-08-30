@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'package:MavenArtifactsTracker/api/artifact_response.dart';
-import 'package:MavenArtifactsTracker/artifact.dart';
+import 'package:MavenArtifactsTracker/data/searchartifact/artifact_response.dart';
 import 'package:built_value_test/matcher.dart';
 import 'package:test/test.dart';
 

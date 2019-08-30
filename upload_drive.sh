@@ -1,2 +1,0 @@
-flutter build apk
-cd /home/audrius/Documents/projects/drive_apk_uploader ; env "PYTHONIOENCODING=UTF-8" "PYTHONUNBUFFERED=1" /home/audrius/Documents/projects/drive_apk_uploader/.env/bin/python /home/audrius/Documents/projects/drive_apk_uploader/drive_apk_uploader/__init__.py -f=/home/audrius/Documents/projects/flutter_maven_tracker/build/app/outputs/apk/release/app-release.apk -n=flutter-maven-tracker.apk
